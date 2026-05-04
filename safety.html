@@ -877,6 +877,7 @@
       </div>
 
       <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" id="btn-reload" onclick="reloadFromSheets()">🔄 Reload</button>
         <button class="btn btn-outline btn-sm" onclick="exportCSV()">📥 Export CSV</button>
         <button class="btn btn-outline btn-sm print-btn" onclick="window.print()">🖨️ พิมพ์รายงาน</button>
       </div>
@@ -1740,6 +1741,27 @@ function generateQR() {
   qrdiv.innerHTML = '';
   new QRCode(qrdiv, { text: url, width: 200, height: 200, colorDark: '#0f4c81', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
   qrGenerated = true;
+}
+
+async function reloadFromSheets() {
+  const btn = document.getElementById('btn-reload');
+  btn.disabled = true;
+  btn.textContent = '⏳ กำลังโหลด...';
+  try {
+    if (!gsUrl) throw new Error('ยังไม่ได้ตั้งค่า URL');
+    const resp = await fetch(gsUrl + '?action=getAll');
+    const json = await resp.json();
+    if (json.status !== 'ok') throw new Error(json.message);
+    resultsDB = json.data;
+    localStorage.setItem('safetyQuizResults', JSON.stringify(resultsDB));
+    updateStats(); renderTable(); renderDeptReport();
+    btn.textContent = '✅ โหลดสำเร็จ';
+  } catch(err) {
+    alert('❌ โหลดล้มเหลว: ' + err.message);
+    btn.textContent = '🔄 Reload';
+  }
+  btn.disabled = false;
+  setTimeout(() => { btn.textContent = '🔄 Reload'; }, 2000);
 }
 
 function copyURL() {
