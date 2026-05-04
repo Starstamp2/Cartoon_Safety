@@ -681,7 +681,7 @@
         <input type="text" id="input-name" placeholder="กรอกชื่อ-นามสกุล">
       </div>
       <div class="form-group">
-        <label id="lbl-dept">รหัสแผนก <span class="required">*</span></label>
+        <label id="lbl-dept">รหัสพนักงาน <span class="required">*</span></label>
         <input type="text" id="input-dept" placeholder="เช่น PRD-001, QA-002">
       </div>
 
@@ -723,6 +723,10 @@
         📊 ระบบตรวจอัตโนมัติทันที
       </div>
     </div>
+  </div>
+
+  <div class="nav-row mt-16">
+        <button class="btn btn-primary btn-sm" onclick="showAdmin()">📊 <span>Admin</span></button>
   </div>
 
   <!-- ========== SCREEN: Quiz ========== -->
@@ -1144,7 +1148,7 @@ const QUESTIONS = [
 // ============================================================
 const UI_TEXT = {
   th: {
-    infoTitle: 'ข้อมูลผู้เข้าสอบ', name: 'ชื่อ - นามสกุล', dept: 'รหัสแผนก',
+    infoTitle: 'ข้อมูลผู้เข้าสอบ', name: 'ชื่อ - นามสกุล', dept: 'รหัสพนักงาน',
     lang: 'เลือกภาษา', start: 'เริ่มทำแบบทดสอบ', ruleTitle: 'กติกาการสอบ',
     progress: (c,t) => `ข้อที่ ${c} จาก ${t}`, answered: (n) => `ตอบแล้ว ${n} ข้อ`,
     prev: '◀ ก่อนหน้า', next: 'ถัดไป ▶', submit: '✅ ส่งคำตอบ',
@@ -1157,12 +1161,12 @@ const UI_TEXT = {
     placeholder_name: 'กรอกชื่อ-นามสกุล',
     placeholder_dept: 'เช่น PRD-001, QA-002',
     alert_name: 'กรุณากรอกชื่อ-นามสกุล',
-    alert_dept: 'กรุณากรอกรหัสแผนก',
+    alert_dept: 'กรุณากรอกรหัสพนักงาน',
     alert_lang: 'กรุณาเลือกภาษา',
     heroTitle: 'แบบทดสอบความรู้ด้านความปลอดภัย',
   },
   en: {
-    infoTitle: 'Examinee Information', name: 'First Name - Last Name', dept: 'Department Code',
+    infoTitle: 'Examinee Information', name: 'First Name - Last Name', dept: 'Employee ID',
     lang: 'Select Language', start: 'Start Test', ruleTitle: 'Test Rules',
     progress: (c,t) => `Question ${c} of ${t}`, answered: (n) => `${n} answered`,
     prev: '◀ Previous', next: 'Next ▶', submit: '✅ Submit',
@@ -1175,12 +1179,12 @@ const UI_TEXT = {
     placeholder_name: 'Enter full name',
     placeholder_dept: 'e.g. PRD-001, QA-002',
     alert_name: 'Please enter your name',
-    alert_dept: 'Please enter department code',
+    alert_dept: 'Please enter Employee ID',
     alert_lang: 'Please select language',
     heroTitle: 'Safety Knowledge Test',
   },
   zh: {
-    infoTitle: '考生信息', name: '姓名', dept: '部门代码',
+    infoTitle: '考生信息', name: '姓名', dept: '员工编号',
     lang: '选择语言', start: '开始测试', ruleTitle: '考试规则',
     progress: (c,t) => `第 ${c} 题，共 ${t} 题`, answered: (n) => `已作答 ${n} 题`,
     prev: '◀ 上一题', next: '下一题 ▶', submit: '✅ 提交',
@@ -1193,12 +1197,12 @@ const UI_TEXT = {
     placeholder_name: '输入姓名',
     placeholder_dept: '例如 PRD-001',
     alert_name: '请输入姓名',
-    alert_dept: '请输入部门代码',
+    alert_dept: '请输入员工编号',
     alert_lang: '请选择语言',
     heroTitle: '工作安全知识测试',
   },
   my: {
-    infoTitle: 'စာမေးပွဲသူ၏ အချက်အလက်', name: 'နာမည် - မျိုးနွယ်အမည်', dept: 'ဌာနကုဒ်',
+    infoTitle: 'စာမေးပွဲသူ၏ အချက်အလက်', name: 'နာမည် - မျိုးနွယ်အမည်', dept: 'ဝန်ထမ်းကုဒ်',
     lang: 'ဘာသာစကားရွေးချယ်ပါ', start: 'စာမေးပွဲစတင်ပါ', ruleTitle: 'စာမေးပွဲ စည်းကမ်းများ',
     progress: (c,t) => `မေးခွန်း ${c} / ${t}`, answered: (n) => `ဖြေဆိုပြီး ${n} ခု`,
     prev: '◀ နောက်သို့', next: 'ရှေ့သို့ ▶', submit: '✅ တင်သွင်းပါ',
@@ -1211,7 +1215,7 @@ const UI_TEXT = {
     placeholder_name: 'နာမည် ထည့်ပါ',
     placeholder_dept: 'ဥပမာ PRD-001',
     alert_name: 'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',
-    alert_dept: 'ကျေးဇူးပြု၍ ဌာနကုဒ်ဖြည့်ပါ',
+    alert_dept: 'ကျေးဇူးပြု၍ ဝန်ထမ်းကုဒ်ဖြည့်ပါ',
     alert_lang: 'ကျေးဇူးပြု၍ ဘာသာစကားရွေးပါ',
     heroTitle: 'လုပ်ငန်းဘေးကင်းရေး စစ်ဆေးမှု',
   }
@@ -1395,6 +1399,17 @@ function showResultScreen(score, pct, passed) {
 }
 
 function retakeQuiz() {
+  const today = new Date().toDateString();
+  const key = 'retakeData_' + userName;
+  let data = JSON.parse(localStorage.getItem(key) || '{"date":"","count":0}');
+  if (data.date !== today) { data = { date: today, count: 0 }; }
+  if (data.count >= 3) {
+    const msg = { th: '❌ ทำแบบทดสอบครบ 3 ครั้งแล้ววันนี้ กรุณารอวันพรุ่งนี้', en: '❌ You have reached the 3 attempts limit for today. Please try again tomorrow.', zh: '❌ 今天已达到3次上限，请明天再试。', my: '❌ ယနေ့ ၃ ကြိမ် ပြည့်သွားပြီ။ မနက်ဖြန် ပြန်လာပါ။' };
+    alert(msg[lang] || msg.th);
+    return;
+  }
+  data.count++;
+  localStorage.setItem(key, JSON.stringify(data));
   userAnswers = {};
   currentQ = 0;
   selectedQuestions = shuffleArr(QUESTIONS).slice(0, 10);
@@ -1424,7 +1439,7 @@ function launchConfetti() {
 // ============================================================
 //  GOOGLE SHEETS BACKEND
 // ============================================================
-let gsUrl = localStorage.getItem('gsUrl') || '';
+let gsUrl = localStorage.getItem('gsUrl') || 'https://script.google.com/macros/s/AKfycbxQYrDanrLPwgfWv6qeaTnMaIfEPcdMFlQPbCCicG0kw4UdzLfaQR1e9H8q54vufuweOw/exec';
 
 function updateGSBannerStatus() {
   const dot = document.getElementById('gs-dot');
