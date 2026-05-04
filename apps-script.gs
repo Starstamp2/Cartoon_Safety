@@ -16,7 +16,7 @@ function getSheet() {
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(['ลำดับ', 'ชื่อ-นามสกุล', 'แผนก', 'ภาษา', 'คะแนน', 'เปอร์เซ็นต์', 'สถานะ', 'วันที่', 'Timestamp']);
+    sheet.appendRow(['ลำดับ', 'ชื่อ-นามสกุล', 'รหัสพนักงาน', 'ภาษา', 'คะแนน', 'เปอร์เซ็นต์', 'สถานะ', 'วันที่', 'Timestamp']);
     sheet.getRange(1, 1, 1, 9).setFontWeight('bold').setBackground('#0f4c81').setFontColor('#ffffff');
     sheet.setFrozenRows(1);
   }

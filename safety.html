@@ -725,10 +725,6 @@
     </div>
   </div>
 
-  <div class="nav-row mt-16">
-        <button class="btn btn-primary btn-sm" onclick="showAdmin()">📊 <span>Admin</span></button>
-  </div>
-
   <!-- ========== SCREEN: Quiz ========== -->
   <div id="screen-quiz" class="screen">
     <div class="card">
@@ -775,12 +771,9 @@
 
       <div class="divider"></div>
 
-      <div class="card-title"><span class="icon">📝</span> <span id="lbl-review">เฉลยคำตอบ</span></div>
-      <div id="review-list"></div>
-
       <div class="nav-row mt-16">
         <button class="btn btn-outline btn-sm" onclick="retakeQuiz()">🔄 <span id="lbl-retry">ทำใหม่</span></button>
-        <button class="btn btn-primary btn-sm" onclick="showAdmin()">📊 <span>Admin</span></button>
+        <!-- <button class="btn btn-primary btn-sm" onclick="showAdmin()">📊 <span>Admin</span></button> -->
       </div>
     </div>
   </div>
@@ -846,7 +839,7 @@
 
     <div class="tab-bar">
       <button class="tab active" onclick="switchTab('records',this)">📋 ผลสอบ</button>
-      <button class="tab" onclick="switchTab('dept',this)">🏭 แผนก</button>
+      <button class="tab" onclick="switchTab('dept',this)">🏭 รหัสพนักงาน</button>
       <button class="tab" onclick="switchTab('qr',this)">📱 QR Code</button>
     </div>
 
@@ -855,7 +848,7 @@
       <div class="filter-row">
         <input type="text" id="search-name" placeholder="🔍 ค้นหาชื่อ..." oninput="renderTable()">
         <select id="filter-dept" onchange="renderTable()">
-          <option value="">แผนกทั้งหมด</option>
+          <option value="">รหัสพนักงานทั้งหมด</option>
         </select>
         <select id="filter-status" onchange="renderTable()">
           <option value="">สถานะทั้งหมด</option>
@@ -870,7 +863,7 @@
             <tr>
               <th>#</th>
               <th>ชื่อ</th>
-              <th>แผนก</th>
+              <th>รหัสพนักงาน</th>
               <th>ภาษา</th>
               <th onclick="sortByScore()" style="cursor:pointer">คะแนน ⇅</th>
               <th>สถานะ</th>
@@ -891,7 +884,7 @@
 
     <!-- Tab: Dept -->
     <div id="tab-dept" class="card" style="display:none">
-      <div class="card-title"><span class="icon">🏭</span> รายงานแยกตามแผนก</div>
+      <div class="card-title"><span class="icon">🏭</span> รายงานแยกตามรหัสพนักงาน</div>
       <div id="dept-report" class="overflow-x">
         <p class="text-muted text-sm text-center" style="padding:16px">ยังไม่มีข้อมูล</p>
       </div>
@@ -1373,29 +1366,9 @@ function showResultScreen(score, pct, passed) {
   statusEl.className = 'score-status ' + (passed ? 'pass' : 'fail');
   document.getElementById('score-pct').textContent = t.pct(pct);
   document.getElementById('result-name').textContent = t.nameLabel(userName, userDept);
-  document.getElementById('lbl-review').textContent = t.review;
   document.getElementById('lbl-retry').textContent = t.retry;
 
-  // Review list
-  const reviewList = document.getElementById('review-list');
-  reviewList.innerHTML = '';
-  selectedQuestions.forEach((q, i) => {
-    const isCorrect = userAnswers[i] === q.answer;
-    const userChoice = q.choices[lang][userAnswers[i]] || '-';
-    const correctChoice = q.choices[lang][q.answer];
-    const div = document.createElement('div');
-    div.className = 'review-item';
-    div.innerHTML = `
-      <span class="review-icon">${isCorrect ? '✅' : '❌'}</span>
-      <div>
-        <strong>ข้อ ${i+1}:</strong> ${q[lang]}<br>
-        <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">
-          ${isCorrect ? '✔ ' + userChoice : '✘ ' + (userAnswers[i] !== undefined ? userChoice : '-')}
-        </span>
-        ${!isCorrect ? `<br><span style="color:var(--success)">✔ ${correctChoice}</span>` : ''}
-      </div>`;
-    reviewList.appendChild(div);
-  });
+
 }
 
 function retakeQuiz() {
@@ -1679,7 +1652,7 @@ function renderTable() {
   const depts = [...new Set(resultsDB.map(r => r.dept))];
   const sel = document.getElementById('filter-dept');
   const cur = sel.value;
-  sel.innerHTML = '<option value="">แผนกทั้งหมด</option>';
+  sel.innerHTML = '<option value="">รหัสพนักงานทั้งหมด</option>';
   depts.forEach(d => { const o = document.createElement('option'); o.value = d; o.textContent = d; sel.appendChild(o); });
   sel.value = cur;
 
@@ -1726,7 +1699,7 @@ function renderDeptReport() {
     return;
   }
   container.innerHTML = `<table class="data-table">
-    <thead><tr><th>แผนก</th><th>ผู้เข้าสอบ</th><th>ผ่าน</th><th>ไม่ผ่าน</th><th>คะแนนเฉลี่ย</th></tr></thead>
+    <thead><tr><th>รหัสพนักงาน</th><th>ผู้เข้าสอบ</th><th>ผ่าน</th><th>ไม่ผ่าน</th><th>คะแนนเฉลี่ย</th></tr></thead>
     <tbody>${Object.entries(depts).map(([d, v]) =>
       `<tr><td><strong>${d}</strong></td><td>${v.total}</td>
        <td style="color:var(--success)"><strong>${v.pass}</strong></td>
@@ -1736,7 +1709,7 @@ function renderDeptReport() {
 }
 
 function exportCSV() {
-  const headers = ['ลำดับ','ชื่อ-นามสกุล','แผนก','ภาษา','คะแนน','เปอร์เซ็นต์','สถานะ','วันที่'];
+  const headers = ['ลำดับ','ชื่อ-นามสกุล','รหัสพนักงาน','ภาษา','คะแนน','เปอร์เซ็นต์','สถานะ','วันที่'];
   const rows = resultsDB.map((r,i) => [i+1, r.name, r.dept, r.lang, r.score, r.pct+'%', r.passed?'ผ่าน':'ไม่ผ่าน', r.date]);
   const csv = '\uFEFF' + [headers, ...rows].map(r => r.join(',')).join('\n');
   const a = document.createElement('a');
