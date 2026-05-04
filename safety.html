@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safety Knowledge Test | แบบทดสอบความปลอดภัย</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+Myanmar:wght@300;400;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --primary: #0f4c81;
+    --primary-dark: #0a3460;
+    --accent: #f59e0b;
+    --accent-light: #fef3c7;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --neutral: #64748b;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(15,76,129,0.10);
+    --radius: 16px;
+    --font-th: 'Noto Sans Thai', sans-serif;
+    --font-en: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-th);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* --- Header Banner --- */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 50%, #0f4c81 100%);
+    padding: 36px 20px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: rgba(245,158,11,0.12);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 150px; height: 150px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .hero-icon { font-size: 48px; margin-bottom: 10px; }
+  .hero h1 {
+    color: #fff;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.95rem;
+    font-family: var(--font-en);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: #1a1a1a;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  /* --- Container --- */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+  }
+
+  /* --- Card --- */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon { font-size: 1.3rem; }
+
+  /* --- Form Inputs --- */
+  .form-group { margin-bottom: 18px; }
+  label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 7px;
+  }
+  label .required { color: var(--danger); margin-left: 3px; }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: var(--font-th);
+    color: var(--text);
+    background: #f8fafc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  input[type="text"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(15,76,129,0.12);
+    background: #fff;
+  }
+
+  /* --- Language Grid --- */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .lang-btn {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 12px;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+  }
+  .lang-btn:hover { border-color: var(--primary); background: #eef4fb; }
+  .lang-btn.selected {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(15,76,129,0.3);
+  }
+  .lang-flag { font-size: 1.6rem; }
+  .lang-label { font-size: 0.9rem; font-weight: 600; }
+  .lang-sub { font-size: 0.72rem; opacity: 0.75; }
+
+  /* --- Button --- */
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-th);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(15,76,129,0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15,76,129,0.4);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary {
+    background: var(--accent);
+    color: #1a1a1a;
+    box-shadow: 0 4px 14px rgba(245,158,11,0.3);
+  }
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+  }
+  .btn-sm { padding: 9px 18px; font-size: 0.88rem; width: auto; border-radius: 8px; }
+
+  /* --- Progress Bar --- */
+  .progress-wrap {
+    background: var(--border);
+    border-radius: 99px;
+    height: 8px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+
+  /* --- Question Card --- */
+  .q-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+  }
+  .q-text {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+
+  /* --- Answer Choices --- */
+  .choices { display: flex; flex-direction: column; gap: 10px; }
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8fafc;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .choice:hover { border-color: var(--primary); background: #eef4fb; transform: translateX(4px); }
+  .choice.selected { border-color: var(--primary); background: #eef4fb; }
+  .choice.correct { border-color: var(--success); background: var(--success-light); color: #065f46; }
+  .choice.wrong { border-color: var(--danger); background: var(--danger-light); color: #991b1b; }
+  .choice-label {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.88rem;
+    flex-shrink: 0;
+    color: var(--primary);
+    transition: all 0.2s;
+  }
+  .choice.selected .choice-label { background: var(--primary); color: #fff; }
+  .choice.correct .choice-label { background: var(--success); color: #fff; }
+  .choice.wrong .choice-label { background: var(--danger); color: #fff; }
+
+  /* --- Nav Buttons --- */
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .nav-row .btn { flex: 1; }
+
+  /* --- Result Card --- */
+  .result-score {
+    text-align: center;
+    padding: 28px 0;
+  }
+  .score-circle {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-en);
+    position: relative;
+  }
+  .score-circle.pass {
+    background: conic-gradient(var(--success) var(--pct), #e2e8f0 0);
+    box-shadow: 0 8px 32px rgba(16,185,129,0.3);
+  }
+  .score-circle.fail {
+    background: conic-gradient(var(--danger) var(--pct), #e2e8f0 0);
+    box-shadow: 0 8px 32px rgba(239,68,68,0.25);
+  }
+  .score-inner {
+    width: 100px; height: 100px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .score-num { font-size: 2rem; font-weight: 700; color: var(--text); }
+  .score-denom { font-size: 0.82rem; color: var(--text-light); }
+  .score-status {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .score-status.pass { color: var(--success); }
+  .score-status.fail { color: var(--danger); }
+
+  /* --- Review Table --- */
+  .review-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* --- Admin Dashboard --- */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    background: var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+  }
+  .tab {
+    flex: 1;
+    padding: 9px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: var(--font-th);
+    color: var(--text-light);
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: #fff;
+    color: var(--primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  /* --- Table --- */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  .data-table th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 8px 0 0; }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tr:hover td { background: #f8fafc; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .badge-pass { background: var(--success-light); color: #065f46; }
+  .badge-fail { background: var(--danger-light); color: #991b1b; }
+
+  /* --- Filter Row --- */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .filter-row input, .filter-row select {
+    flex: 1;
+    min-width: 120px;
+    padding: 9px 12px;
+    border: 2px solid var(--border);
+    border-radius: 9px;
+    font-family: var(--font-th);
+    font-size: 0.88rem;
+    background: #f8fafc;
+    outline: none;
+    color: var(--text);
+  }
+  .filter-row input:focus, .filter-row select:focus {
+    border-color: var(--primary);
+  }
+
+  /* --- Stats Grid --- */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-box {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: 12px;
+    padding: 16px;
+    color: #fff;
+    text-align: center;
+  }
+  .stat-box.accent { background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%); color: #1a1a1a; }
+  .stat-box.success { background: linear-gradient(135deg, var(--success) 0%, #059669 100%); }
+  .stat-box.danger { background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); }
+  .stat-num { font-size: 1.9rem; font-weight: 800; font-family: var(--font-en); }
+  .stat-lbl { font-size: 0.78rem; opacity: 0.85; margin-top: 2px; }
+
+  /* --- QR Section --- */
+  .qr-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+  }
+  #qrcode canvas, #qrcode img { border-radius: 12px; }
+  .qr-url {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    word-break: break-all;
+    text-align: center;
+    background: var(--bg);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: var(--font-en);
+  }
+
+  /* --- Screens --- */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  /* --- Bottom Nav --- */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    display: flex;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    z-index: 100;
+  }
+  .nav-item {
+    flex: 1;
+    padding: 10px 4px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text-light);
+    font-family: var(--font-th);
+    font-size: 0.68rem;
+    transition: color 0.2s;
+  }
+  .nav-item.active { color: var(--primary); }
+  .nav-item .nav-icon { font-size: 1.4rem; }
+
+  /* --- Utility --- */
+  .text-center { text-align: center; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-20 { margin-top: 20px; }
+  .text-sm { font-size: 0.85rem; }
+  .text-muted { color: var(--text-light); }
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  .print-btn { margin-top: 12px; }
+  .overflow-x { overflow-x: auto; }
+
+  @media print {
+    .bottom-nav, .btn, .filter-row { display: none !important; }
+    .card { box-shadow: none; border: 1px solid #ccc; }
+  }
+
+  /* --- Password Modal --- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,28,60,0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.hidden { display: none; }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 24px 80px rgba(10,28,60,0.35);
+    animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    text-align: center;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+
+  .modal-icon {
+    width: 68px; height: 68px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 8px 24px rgba(15,76,129,0.35);
+  }
+  .modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .modal-sub {
+    font-size: 0.83rem;
+    color: var(--text-light);
+    margin-bottom: 22px;
+  }
+
+  .pw-input-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .pw-input-wrap input {
+    width: 100%;
+    padding: 13px 46px 13px 16px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-family: var(--font-en);
+    letter-spacing: 0.15em;
+    color: var(--text);
+    outline: none;
+    background: #f8fafc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: center;
+  }
+  .pw-input-wrap input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(15,76,129,0.12);
+    background: #fff;
+  }
+  .pw-input-wrap input.error {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+    animation: shake 0.35s ease;
+  }
+  .pw-toggle {
+    position: absolute;
+    right: 14px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    cursor: pointer; font-size: 1.1rem;
+    color: var(--text-light);
+    padding: 4px;
+    line-height: 1;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%,60%  { transform: translateX(-6px); }
+    40%,80%  { transform: translateX(6px); }
+  }
+
+  .pw-error-msg {
+    font-size: 0.82rem;
+    color: var(--danger);
+    margin-bottom: 12px;
+    min-height: 18px;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .attempt-dots {
+    display: flex; justify-content: center; gap: 6px; margin-bottom: 18px;
+  }
+  .attempt-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+  .attempt-dot.used { background: var(--danger); }
+
+  .modal-cancel {
+    background: none; border: none;
+    color: var(--text-light); font-size: 0.83rem;
+    cursor: pointer; margin-top: 10px;
+    font-family: var(--font-th);
+    text-decoration: underline;
+    padding: 4px 8px;
+  }
+  .modal-cancel:hover { color: var(--text); }
+
+  /* Confetti animation for pass */
+  @keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(80px) rotate(360deg); opacity: 0; }
+  }
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    animation: confetti-fall 1.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 9999;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-icon">🦺</div>
+  <h1 id="hero-title">แบบทดสอบความรู้ด้านความปลอดภัย</h1>
+  <p>Safety Knowledge Assessment System</p>
+  <div class="hero-badge">⚡ 4 Languages Supported</div>
+</div>
+
+<div class="container">
+
+  <!-- ========== SCREEN: Registration ========== -->
+  <div id="screen-register" class="screen active">
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> <span id="lbl-info">ข้อมูลผู้เข้าสอบ</span></div>
+
+      <div class="form-group">
+        <label id="lbl-name">ชื่อ - นามสกุล <span class="required">*</span></label>
+        <input type="text" id="input-name" placeholder="กรอกชื่อ-นามสกุล">
+      </div>
+      <div class="form-group">
+        <label id="lbl-dept">รหัสแผนก <span class="required">*</span></label>
+        <input type="text" id="input-dept" placeholder="เช่น PRD-001, QA-002">
+      </div>
+
+      <div class="form-group">
+        <label id="lbl-lang">เลือกภาษา / Select Language</label>
+        <div class="lang-grid">
+          <div class="lang-btn" onclick="selectLang('th',this)">
+            <span class="lang-flag">🇹🇭</span>
+            <div><div class="lang-label">ภาษาไทย</div><div class="lang-sub">Thai</div></div>
+          </div>
+          <div class="lang-btn" onclick="selectLang('en',this)">
+            <span class="lang-flag">🇬🇧</span>
+            <div><div class="lang-label">English</div><div class="lang-sub">อังกฤษ</div></div>
+          </div>
+          <div class="lang-btn" onclick="selectLang('zh',this)">
+            <span class="lang-flag">🇨🇳</span>
+            <div><div class="lang-label">中文</div><div class="lang-sub">จีน</div></div>
+          </div>
+          <div class="lang-btn" onclick="selectLang('my',this)">
+            <span class="lang-flag">🇲🇲</span>
+            <div><div class="lang-label">မြန်မာဘာသာ</div><div class="lang-sub">เมียนมา</div></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary mt-16" onclick="startQuiz()">
+        <span>🚀</span> <span id="lbl-start">เริ่มทำแบบทดสอบ</span>
+      </button>
+    </div>
+
+    <!-- Info box -->
+    <div class="card" style="background:linear-gradient(135deg,#eef4fb,#f0f4f8);">
+      <div class="card-title"><span class="icon">ℹ️</span> <span id="lbl-ruleTitle">กติกาการสอบ</span></div>
+      <div class="text-sm" id="rules-text">
+        📌 จำนวนข้อ: <strong>10 ข้อ</strong><br>
+        ⏱️ ไม่จำกัดเวลา<br>
+        ✅ เกณฑ์ผ่าน: <strong>80% (8/10 ข้อ)</strong><br>
+        🔀 คำถามสุ่มจากคลัง 14 ข้อ<br>
+        📊 ระบบตรวจอัตโนมัติทันที
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN: Quiz ========== -->
+  <div id="screen-quiz" class="screen">
+    <div class="card">
+      <div class="progress-label">
+        <span id="q-progress">ข้อที่ 1 จาก 10</span>
+        <span id="q-answered">ตอบแล้ว 0 ข้อ</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progress-bar" style="width:10%"></div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div class="q-number" id="q-num">1</div>
+        <p class="q-text" id="q-text">คำถาม...</p>
+      </div>
+
+      <div class="choices" id="choices-wrap"></div>
+
+      <div class="nav-row">
+        <button class="btn btn-outline" id="btn-prev" onclick="navigate(-1)" disabled>◀ ก่อนหน้า</button>
+        <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">ถัดไป ▶</button>
+      </div>
+    </div>
+
+    <button class="btn btn-secondary" onclick="submitQuiz()" id="btn-submit" style="display:none;margin-bottom:20px">
+      ✅ ส่งคำตอบ
+    </button>
+  </div>
+
+  <!-- ========== SCREEN: Result ========== -->
+  <div id="screen-result" class="screen">
+    <div class="card">
+      <div class="result-score">
+        <div class="score-circle" id="score-circle">
+          <div class="score-inner">
+            <div class="score-num" id="score-num">-</div>
+            <div class="score-denom" id="score-denom">จาก 10</div>
+          </div>
+        </div>
+        <div class="score-status" id="score-status">-</div>
+        <p class="text-muted text-sm" id="score-pct">-</p>
+        <p class="text-sm mt-8" id="result-name">-</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card-title"><span class="icon">📝</span> <span id="lbl-review">เฉลยคำตอบ</span></div>
+      <div id="review-list"></div>
+
+      <div class="nav-row mt-16">
+        <button class="btn btn-outline btn-sm" onclick="retakeQuiz()">🔄 <span id="lbl-retry">ทำใหม่</span></button>
+        <button class="btn btn-primary btn-sm" onclick="showAdmin()">📊 <span>Admin</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN: Admin ========== -->
+  <div id="screen-admin" class="screen">
+
+    <!-- Google Sheets Banner -->
+    <div id="gs-banner" class="card" style="padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px;cursor:pointer;border:2px solid var(--border)" onclick="toggleGSSettings()">
+      <span style="font-size:1.5rem">📊</span>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:0.9rem;color:var(--primary)">Google Sheets Backend</div>
+        <div id="gs-status-text" style="font-size:0.75rem;color:var(--text-light)">คลิกเพื่อตั้งค่า Apps Script URL</div>
+      </div>
+      <div id="gs-dot" style="width:10px;height:10px;border-radius:50%;background:var(--border);flex-shrink:0"></div>
+    </div>
+
+    <!-- GS Settings Panel -->
+    <div id="gs-settings" class="card" style="display:none;margin-bottom:14px;padding:20px">
+      <div class="card-title" style="margin-bottom:14px"><span class="icon">⚙️</span> ตั้งค่า Google Sheets</div>
+      <div style="font-size:0.82rem;color:var(--text-light);margin-bottom:12px;line-height:1.6">
+        1. เปิด Google Sheets → Extensions → Apps Script<br>
+        2. วางโค้ด Apps Script แล้ว Deploy เป็น Web App<br>
+        3. ใส่ URL ที่ได้ด้านล่าง
+      </div>
+      <div style="margin-bottom:10px">
+        <label style="font-size:0.82rem;font-weight:600;margin-bottom:6px;display:block">Apps Script Web App URL</label>
+        <input type="text" id="gs-url-input" placeholder="https://script.google.com/macros/s/..." style="font-size:0.8rem;font-family:var(--font-en)">
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="saveGSUrl()">💾 บันทึก URL</button>
+        <button class="btn btn-outline btn-sm" onclick="testGSConnection()">🔗 ทดสอบการเชื่อมต่อ</button>
+        <button class="btn btn-outline btn-sm" onclick="syncFromSheets()">🔄 โหลดข้อมูลจาก Sheets</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border:none" onclick="clearGSUrl()">🗑️ ล้าง URL</button>
+      </div>
+      <div id="gs-test-result" style="margin-top:10px;font-size:0.8rem;display:none"></div>
+
+      <!-- Apps Script Code -->
+      <div style="margin-top:16px">
+        <div style="font-size:0.82rem;font-weight:700;margin-bottom:8px;color:var(--text)">📋 โค้ด Apps Script (คัดลอกไปใส่)</div>
+        <div style="position:relative">
+          <pre id="apps-script-code" style="background:#1e293b;color:#e2e8f0;padding:14px;border-radius:10px;font-size:0.68rem;overflow-x:auto;line-height:1.6;white-space:pre-wrap;word-break:break-word">// =============================================
+// วาง code นี้ใน Apps Script แล้ว Deploy ใหม่
+// Execute as: Me | Who has access: Anyone
+// =============================================
+
+function doPost(e) {
+  try {
+    var p = e.parameter;
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Results') || ss.insertSheet('Results');
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(['Timestamp','Name','Department','Language','Score','Percent','Status','Date']);
+      sheet.getRange(1,1,1,8)
+        .setFontWeight('bold')
+        .setBackground('#0f4c81')
+        .setFontColor('#ffffff');
+    }
+
+    sheet.appendRow([
+      new Date(),
+      p.name   || '',
+      p.dept   || '',
+      p.lang   || '',
+      Number(p.score) || 0,
+      (p.pct || '0') + '%',
+      p.passed === 'true' ? 'PASS' : 'FAIL',
+      p.date   || ''
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({status:'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({status:'error', msg: err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Results');
+
+  if (!sheet || sheet.getLastRow() < 2) {
+    return ContentService
+      .createTextOutput(JSON.stringify({data:[]}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 8).getValues();
+  var data = rows
+    .filter(function(r) { return r[1]; })
+    .map(function(r) {
+      return {
+        name:   r[1],
+        dept:   r[2],
+        lang:   r[3],
+        score:  Number(r[4]),
+        pct:    parseInt(r[5]) || 0,
+        passed: r[6] === 'PASS',
+        date:   r[7] ? r[7].toString() : ''
+      };
+    });
+
+  return ContentService
+    .createTextOutput(JSON.stringify({data: data}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+          <button onclick="copyAppsScript()" class="btn btn-sm" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.15);color:#e2e8f0;border:1px solid rgba(255,255,255,0.2);padding:5px 10px;font-size:0.7rem">📋 คัดลอก</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-lbl">ผู้เข้าสอบทั้งหมด</div>
+      </div>
+      <div class="stat-box accent">
+        <div class="stat-num" id="stat-avg">0%</div>
+        <div class="stat-lbl">คะแนนเฉลี่ย</div>
+      </div>
+      <div class="stat-box success">
+        <div class="stat-num" id="stat-pass">0</div>
+        <div class="stat-lbl">ผ่านเกณฑ์ ✅</div>
+      </div>
+      <div class="stat-box danger">
+        <div class="stat-num" id="stat-fail">0</div>
+        <div class="stat-lbl">ไม่ผ่าน ❌</div>
+      </div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab active" onclick="switchTab('records',this)">📋 ผลสอบ</button>
+      <button class="tab" onclick="switchTab('dept',this)">🏭 แผนก</button>
+      <button class="tab" onclick="switchTab('qr',this)">📱 QR Code</button>
+    </div>
+
+    <!-- Tab: Records -->
+    <div id="tab-records" class="card">
+      <div class="filter-row">
+        <input type="text" id="search-name" placeholder="🔍 ค้นหาชื่อ..." oninput="renderTable()">
+        <select id="filter-dept" onchange="renderTable()">
+          <option value="">แผนกทั้งหมด</option>
+        </select>
+        <select id="filter-status" onchange="renderTable()">
+          <option value="">สถานะทั้งหมด</option>
+          <option value="pass">ผ่าน</option>
+          <option value="fail">ไม่ผ่าน</option>
+        </select>
+      </div>
+
+      <div class="overflow-x">
+        <table class="data-table" id="results-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อ</th>
+              <th>แผนก</th>
+              <th>ภาษา</th>
+              <th onclick="sortByScore()" style="cursor:pointer">คะแนน ⇅</th>
+              <th>สถานะ</th>
+              <th>วันที่</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="7" class="text-center text-muted" style="padding:24px">ยังไม่มีข้อมูล</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+        <button class="btn btn-outline btn-sm" onclick="exportCSV()">📥 Export CSV</button>
+        <button class="btn btn-outline btn-sm print-btn" onclick="window.print()">🖨️ พิมพ์รายงาน</button>
+      </div>
+    </div>
+
+    <!-- Tab: Dept -->
+    <div id="tab-dept" class="card" style="display:none">
+      <div class="card-title"><span class="icon">🏭</span> รายงานแยกตามแผนก</div>
+      <div id="dept-report" class="overflow-x">
+        <p class="text-muted text-sm text-center" style="padding:16px">ยังไม่มีข้อมูล</p>
+      </div>
+    </div>
+
+    <!-- Tab: QR -->
+    <div id="tab-qr" class="card" style="display:none">
+      <div class="card-title"><span class="icon">📱</span> QR Code แบบทดสอบ</div>
+      <div class="qr-wrap">
+        <div id="qrcode"></div>
+        <p class="text-sm text-muted text-center">สแกนเพื่อเข้าสู่แบบทดสอบ<br>Scan to access the test</p>
+        <div class="qr-url" id="qr-url-text"></div>
+        <button class="btn btn-primary btn-sm" onclick="copyURL()">📋 คัดลอกลิงก์</button>
+      </div>
+      <div class="divider"></div>
+      <p class="text-sm text-muted text-center">💡 ใช้ QR Code นี้ติดไว้ที่บอร์ด หรือส่งให้พนักงานทางไลน์/อีเมล</p>
+    </div>
+
+  </div>
+
+</div><!-- /container -->
+
+<!-- Password Modal -->
+<div class="modal-overlay hidden" id="pw-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🔐</div>
+    <div class="modal-title">เข้าสู่ระบบผู้ดูแล</div>
+    <div class="modal-sub">Admin Access — กรุณาใส่รหัสผ่าน</div>
+
+    <div class="pw-input-wrap">
+      <input type="password" id="pw-input" placeholder="••••••••"
+        onkeydown="if(event.key==='Enter')checkPassword()"
+        oninput="clearPwError()">
+      <button class="pw-toggle" onclick="togglePwVisibility()" tabindex="-1" id="pw-eye">👁️</button>
+    </div>
+
+    <div class="pw-error-msg" id="pw-error"></div>
+
+    <div class="attempt-dots" id="attempt-dots">
+      <div class="attempt-dot" id="dot-0"></div>
+      <div class="attempt-dot" id="dot-1"></div>
+      <div class="attempt-dot" id="dot-2"></div>
+    </div>
+
+    <button class="btn btn-primary" onclick="checkPassword()" id="pw-btn">
+      🔓 เข้าสู่ระบบ
+    </button>
+    <br>
+    <button class="modal-cancel" onclick="closePasswordModal()">ยกเลิก / Cancel</button>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="nav-item active" onclick="showScreen('register')" id="nav-home">
+    <span class="nav-icon">🏠</span><span>หน้าแรก</span>
+  </button>
+  <button class="nav-item" onclick="showAdmin()" id="nav-admin">
+    <span class="nav-icon">📊</span><span>Admin</span>
+  </button>
+</div>
+
+<script>
+// ============================================================
+//  QUESTION BANK (14 questions, 4 languages)
+// ============================================================
+const QUESTIONS = [
+  {
+    th: 'หากพบเห็นอุบัติเหตุหรือสถานการณ์ที่ไม่ปลอดภัยในที่ทำงาน ควรทำอย่างไรเป็นอันดับแรก?',
+    en: 'What should you do first if you see an accident or unsafe situation at work?',
+    zh: '如果看到事故或不安全的情况，你应该先做什么？',
+    my: 'မတော်တဆမှု သို့မဟုတ် မလုံခြုံသောအခြေအနေကို မြင်ပါက ပထမဦးဆုံး ဘာလုပ်သင့်သလဲ။',
+    choices: {
+      th: ['ยืนดูเหตุการณ์','แจ้งหัวหน้างานหรือเจ้าหน้าที่ความปลอดภัยทันที','ถ่ายรูปส่งให้เพื่อนดู','รอให้เลิกงานก่อนค่อยบอก'],
+      en: ['Stand and watch','Report to supervisor or Safety Officer immediately','Take a photo and send it to friends','Wait until finish work'],
+      zh: ['站在那看','立即向主管或安全员汇报','拍照发给朋友','等下班再说'],
+      my: ['ရပ်ကြည့်နေပါ','အလုပ်သမားခေါင်းဆောင် သို့မဟုတ် Safety အရာရှိကို ချက်ချင်းအကြောင်းကြားပါ','ဓာတ်ပုံရိုက်ပြီး သူငယ်ချင်းများထံ ပေးပို့ပါ','အလုပ်ဆင်းချိန်အထိ စောင့်ပြောပါ'],
+    },
+    answer: 1
+  },
+  {
+    th: 'ป้ายความปลอดภัย "สีแดง" หมายถึงอะไร?',
+    en: 'What does the "Red" safety sign mean?',
+    zh: '"红色"安全标志是什么意思？',
+    my: '"အနီရောင်" ဘေးကင်းရေးဆိုင်းဘုတ်က ဘာကိုဆိုလိုသလဲ။',
+    choices: {
+      th: ['ป้ายบังคับให้ปฏิบัติ','ป้ายเตือนอันตราย','ป้ายห้าม หรือ อุปกรณ์ป้องกันไฟ','ป้ายแสดงสภาวะปลอดภัย'],
+      en: ['Mandatory sign','Warning sign','Prohibition or Fire equipment','Safe condition sign'],
+      zh: ['强制标志','警告标志','禁止标志或消防器材','安全状态标志'],
+      my: ['မဖြစ်မနေလုပ်ဆောင်ရမည့်ဆိုင်းဘုတ်','သတိပေးဆိုင်းဘုတ်','တားမြစ်ချက် သို့မဟုတ် မီးသတ်ပစ္စည်း','ဘေးကင်းသောအခြေအနေပြဆိုင်းဘုတ်'],
+    },
+    answer: 2
+  },
+  {
+    th: 'ก่อนใช้งานเครื่องจักรทุกครั้ง พนักงานควรปฏิบัติอย่างไร?',
+    en: 'What should employees do before using any machine?',
+    zh: '每次操作机器前，员工应该做什么？',
+    my: 'စက်ပစ္စည်းကို အသုံးမပြုမီ အလုပ်သမားများ ဘာလုပ်သင့်သလဲ။',
+    choices: {
+      th: ['ตรวจเช็คสภาพเครื่องจักรและการ์ดป้องกัน','เปิดเครื่องใช้งานทันที','ปรับแต่งเครื่องจักรขณะเครื่องเดิน','ถอดการ์ดป้องกันออกเพื่อให้ทำงานสะดวก'],
+      en: ['Check machine condition and safety guards','Start using immediately','Adjust machine while running','Remove guards for convenience'],
+      zh: ['检查机器状态和防护罩','立即开启使用','在机器运转时进行调整','拆除防护罩以便工作'],
+      my: ['စက်အခြေအနေနှင့် အကာအကွယ်များကို စစ်ဆေးပါ','စက်ကို ချက်ချင်းဖွင့်ပါ','စက်လည်ပတ်နေစဉ် ပြုပြင်ပြောင်းလဲပါ','အလုပ်လုပ်ရလွယ်ကူစေရန် အကာအကွယ်များကို ဖယ်ရှားပါ'],
+    },
+    answer: 0
+  },
+  {
+    th: 'การสวมใส่อุปกรณ์คุ้มครองความปลอดภัยส่วนบุคคล (PPE) มีวัตถุประสงค์เพื่ออะไร?',
+    en: 'What is the purpose of wearing PPE (Personal Protective Equipment)?',
+    zh: '佩戴个人防护装备(PPE)的目的是什么？',
+    my: 'PPE ဝတ်ဆင်ရခြင်း၏ ရည်ရွယ်ချက်မှာ အဘယ်နည်း။',
+    choices: {
+      th: ['เพื่อความสวยงาม','เพื่อลดความรุนแรงจากการบาดเจ็บ','เพื่อให้หัวหน้างานพอใจ','เพื่อให้ทำงานช้าลง'],
+      en: ['For beauty','To reduce injury severity','To please the supervisor','To work slower'],
+      zh: ['为了美观','为了减轻伤害程度','为了让主管满意','为了减慢工作速度'],
+      my: ['လှပစေရန်','ထိခိုက်ဒဏ်ရာရမှုကို လျှော့ချရန်','အလုပ်သမားခေါင်းဆောင် စိတ်ကျေနပ်စေရန်','အလုပ်ကို နှေးကွေးစေရန်'],
+    },
+    answer: 1
+  },
+  {
+    th: 'หากสารเคมีกระเด็นเข้าตา ควรทำอย่างไรเป็นลำดับแรก?',
+    en: 'If chemicals splash into your eyes, what should you do first?',
+    zh: '如果化学品溅入眼睛，应该先做什么？',
+    my: 'မျက်လုံးထဲသို့ ဓာတုပစ္စည်းများ စင်သွားပါက ပထမဦးဆုံး ဘာလုပ်သင့်သလဲ။',
+    choices: {
+      th: ['ขยี้ตาแรงๆ','นำผ้าสะอาดมาปิดตาไว้','ล้างตาด้วยน้ำสะอาดไหลผ่านอย่างน้อย 15 นาที','รอไปหาหมอที่บ้าน'],
+      en: ['Rub eyes hard','Cover eyes with a cloth','Rinse eyes with running water for at least 15 minutes','Wait to see a doctor at home'],
+      zh: ['用力揉眼睛','用干净的布盖住眼睛','用流动的清水冲洗眼睛至少15分钟','等回家再看医生'],
+      my: ['မျက်လုံးကို ပြင်းထန်စွာပွတ်ပါ','သန့်ရှင်းသောအဝတ်ဖြင့် မျက်လုံးကို အုပ်ထားပါ','အနည်းဆုံး ၁၅ မိနစ်ခန့် ရေဖြင့် ဆေးကြောပါ','အိမ်ရောက်မှ ဆရာဝန်ပြရန်စောင့်ပါ'],
+    },
+    answer: 2
+  },
+  {
+    th: 'ข้อใดคือความปลอดภัยเบื้องต้นในการใช้ "ไฟฟ้า"?',
+    en: 'What is basic electrical safety?',
+    zh: '电气安全的基本准则是什么？',
+    my: 'လျှပ်စစ်ဘေးကင်းရေး အခြေခံစည်းကမ်းမှာ အဘယ်နည်း။',
+    choices: {
+      th: ['ใช้มือเปียกจับสวิตช์ไฟ','ต่อสายไฟโดยไม่ใช้เทปพันสาย','ไม่ใช้งานอุปกรณ์ไฟฟ้าที่สายไฟชำรุด','ใช้ปลั๊กพ่วงต่อกันหลายๆ ตัว'],
+      en: ['Touch switches with wet hands','Connect wires without insulation tape','Do not use damaged electrical equipment','Chain multiple power strips together'],
+      zh: ['用湿手触摸开关','不用绝缘胶带连接电线','不要使用损坏的电设备','串联多个插线板'],
+      my: ['လက်စိုဖြင့် ခလုတ်ကို ကိုင်တွယ်ပါ','တိပ်မပါဘဲ ဝါယာကြိုးများကို ဆက်သွယ်ပါ','ပျက်စီးနေသော လျှပ်စစ်ပစ္စည်းများကို အသုံးမပြုပါနှင့်','ပလပ်ခေါင်းများစွာကို ဆင့်ပွားအသုံးပြုပါ'],
+    },
+    answer: 2
+  },
+  {
+    th: 'การขับรถ "โฟล์คลิฟท์" (Forklift) ที่ถูกต้องคือข้อใด?',
+    en: 'What is the correct way to drive a forklift?',
+    zh: '叉车的正确驾驶方法是什么？',
+    my: 'ဖော့ကလစ် (Forklift) မောင်းနှင်ရာတွင် မှန်ကန်သောနည်းလမ်းမှာ အဘယ်နည်း။',
+    choices: {
+      th: ['ยกงาขึ้นสูงขณะขับเคลื่อน','ให้เพื่อนโหนงาไปด้วย','ขับด้วยความเร็วที่กำหนดและกดแตรเมื่อถึงทางแยก','บรรทุกของหนักเกินน้ำหนักที่ระบุ'],
+      en: ['Raise forks high while moving','Let a friend ride on the forks','Drive at set speed and honk at intersections','Overload beyond capacity'],
+      zh: ['行驶时将货叉升得很高','让朋友搭乘货叉','按规定速度驾驶并在路口鸣笛','超载运行'],
+      my: ['မောင်းနှินနေစဉ် ခက်ရင်းကို အမြင့်ကြီးမတင်ရ','ခက်ရင်းပေါ်တွင် လူတင်မောင်းနှိနပါ','သတ်မှတ်အမြန်နှုန်းဖြင့်မောင်းနှင်ပြီး လမ်းဆုံတွင် ဟွန်းတီးပါ','သတ်မှတ်အလေးချိန်ထက် ပိုတင်ပါ'],
+    },
+    answer: 2
+  },
+  {
+    th: 'ขณะใช้งาน "เครื่องเจียร" อุปกรณ์ PPE ใดสำคัญที่สุด?',
+    en: 'Which PPE is most important when using a grinder?',
+    zh: '使用角磨机时，哪种PPE最重要？',
+    my: 'ကြိတ်စက် (Grinder) အသုံးပြုနေစဉ် မည်သည့် PPE က အရေးကြီးဆုံးလဲ။',
+    choices: {
+      th: ['หมวกนิรภัย','กระบังหน้าหรือแว่นตานิรภัย','เข็มขัดพยุงหลัง','หน้ากากกันฝุ่นธรรมดา'],
+      en: ['Safety helmet','Face shield or Safety goggles','Back support belt','Basic dust mask'],
+      zh: ['安全帽','面罩或安全眼镜','护腰带','普通防尘口罩'],
+      my: ['ဘေးကင်းရေးဦးထုပ်','မျက်နှာအကာ သို့မဟုတ် ဘေးကင်းရေးမျက်မှန်','ခါးပတ်','ရိုးရိုးနှာခေါင်းစည်း'],
+    },
+    answer: 1
+  },
+  {
+    th: 'เอกสารข้อมูลความปลอดภัยสารเคมี (SDS) มีความสำคัญอย่างไร?',
+    en: 'How important is the Safety Data Sheet (SDS)?',
+    zh: '化学品安全说明书(SDS)有多重要？',
+    my: 'SDS စာရွက်စာတမ်းသည် မည်မျှအရေးကြီးသနည်း။',
+    choices: {
+      th: ['บอกวิธีการใช้และอันตรายของสารเคมี','บอกราคาสารเคมี','ใช้เป็นกระดาษจดบันทึก','ไม่มีประโยชน์ต่อพนักงาน'],
+      en: ['Explains usage and hazards of chemicals','Explains chemical price','Use as a notepad','No benefit to employees'],
+      zh: ['说明用途和危害','说明价格','用作记事本','对员工没有用'],
+      my: ['ဓာတုပစ္စည်းအသုံးပြုပုံနှင့် အန္တရာယ်ကို ဖော်ပြထားသည်','ဈေးနှုန်းကို ဖော်ပြထားသည်','မှတ်စုစာအုပ်အဖြစ် အသုံးပြုရန်','အလုပ်သမားအတွက် အကျိုးမရှိပါ'],
+    },
+    answer: 0
+  },
+  {
+    th: 'เมื่อได้ยินเสียงสัญญาณเตือนภัย "ไฟไหม้" ควรทำอย่างไร?',
+    en: 'What should you do when you hear the fire alarm?',
+    zh: '听到火警警报时该怎么办？',
+    my: 'မီးဘေးအချက်ပေးသံကြားပါက ဘာလုပ်သင့်သလဲ။',
+    choices: {
+      th: ['เก็บของมีค่าอย่างใจเย็น','ขึ้นลิฟต์เพื่อลงไปข้างล่างให้เร็วที่สุด','วิ่งหนีไปคนละทิศละทาง','เดินไปยังจุดรวมพลตามเส้นทางหนีไฟ'],
+      en: ['Collect valuables calmly','Take the elevator down quickly','Run in all directions','Go to assembly point via fire exit route'],
+      zh: ['冷静地收拾财物','乘坐电梯','到处乱跑','沿逃生路线前往集合点'],
+      my: ['ပစ္စည်းများကို အေးဆေးစွာသိမ်းဆည်းပါ','ဓာတ်လှေကားကို အသုံးပြုပါ','ဟိုဟိုဒီဒီ ပြေးလွှားပါ','သတ်မှတ်ထားသော စုရပ်နေရာသို့ သွားပါ'],
+    },
+    answer: 3
+  },
+  {
+    th: 'การยกของหนักที่ถูกวิธีควรทำอย่างไร?',
+    en: 'What is the correct way to lift heavy objects?',
+    zh: '搬运重物的正确姿势是什么？',
+    my: 'အလေးအပင်မရာတွင် မှန်ကန်သောနည်းလမ်းမှာ အဘယ်နည်း။',
+    choices: {
+      th: ['ก้มหลังยกลงไปตรงๆ','ย่อเข่า หลังตรง แล้วใช้แรงขา','ใช้มือข้างเดียวหิ้ว','สะบัดตัวอย่างรวดเร็ว'],
+      en: ['Bend your back directly','Squat, keep back straight, use leg muscles','Lift with one hand','Twist body quickly'],
+      zh: ['弯腰搬运','蹲下，背部挺直，用力腿部','用一只手提','快速扭动身体'],
+      my: ['ခါးကိုကိုင်းပြီး မပါ','ဒူးကိုကွေး၊ ခါးကိုဆန့်ပြီး ခြေထောက်အားကိုသုံးပါ','လက်တစ်ဖက်တည်းဖြင့် မပါ','ခန္ဓာကိုယ်ကို အမြန်လှည့်ပါ'],
+    },
+    answer: 1
+  },
+  {
+    th: 'ป้ายสัญลักษณ์รูป "รองเท้าเซฟตี้" บนพื้นสีน้ำเงิน หมายถึงอะไร?',
+    en: 'What does a "Safety shoes" sign on a blue background mean?',
+    zh: '蓝色背景上的"安全鞋"标志是什么意思？',
+    my: 'အပြာရောင်နောက်ခံရှိ "ဘေးကင်းရေးဖိနပ်" ဆိုင်းဘုတ်က ဘာကိုဆိုလိုသလဲ။',
+    choices: {
+      th: ['ห้ามใส่รองเท้า','บริเวณขายรองเท้า','บังคับให้สวมรองเท้านิรภัย','ระวังพื้นลื่น'],
+      en: ['No shoes allowed','Shoe shop area','Mandatory to wear safety shoes','Beware of slippery floor'],
+      zh: ['禁止穿鞋','卖鞋的地方','必须穿安全鞋','小心路滑'],
+      my: ['ဖိနပ်မစီးရ','ဖိနပ်ရောင်းသည့်နေရာ','ဘေးကင်းရေးဖိနပ်ကို မဖြစ်မနေစီးရမည်','ချောသောကြမ်းပြင်ကို သတိပြုရန်'],
+    },
+    answer: 2
+  },
+  {
+    th: 'หากพนักงานรู้สึกเหนื่อยล้าหรือเจ็บป่วยขณะทำงาน ควรทำอย่างไร?',
+    en: 'What should you do if you feel tired or sick while working?',
+    zh: '工作时感到疲劳或不舒服该怎么办？',
+    my: 'အလုပ်လုပ်နေစဉ် မောပန်းခြင်း သို့မဟုတ် ဖျားနာခြင်းခံစားရပါက ဘာလုပ်သင့်သလဲ။',
+    choices: {
+      th: ['ทนทำงานต่อไปจนเสร็จ','แอบไปนอนหลับในที่ลับตา','แจ้งหัวหน้างานเพื่อขอพักหรือไปห้องพยาบาล','ลาออกทันที'],
+      en: ['Keep working until finished','Hide and sleep somewhere','Inform supervisor to rest or go to infirmary','Resign immediately'],
+      zh: ['坚持工作到结束','躲起来睡觉','报告主管并去医务室','立即辞职'],
+      my: ['ပြီးဆုံးသည်အထိ ဆက်လုပ်ပါ','ချောင်ထဲတွင် ခိုးအိပ်ပါ','အလုပ်သမားခေါင်းဆောင်ကို အကြောင်းကြားပြီး ဆေးခန်းသွားပါ','ချက်ချင်းအလုပ်ထွက်ပါ'],
+    },
+    answer: 2
+  },
+  {
+    th: 'ใครมีหน้าที่รับผิดชอบเรื่องความปลอดภัยในโรงงาน?',
+    en: 'Who is responsible for safety in the factory?',
+    zh: '谁负责工厂的安全？',
+    my: 'စက်ရုံ၏ဘေးကင်းရေးအတွက် မည်သူတွင် တာဝန်ရှိသနည်း။',
+    choices: {
+      th: ['จป. เท่านั้น','ผู้บริหารเท่านั้น','พนักงานทุกคน','ยาม'],
+      en: ['Safety Officer only','Management only','All employees','Security guards'],
+      zh: ['只是安全员','只是管理者','所有员工','保安'],
+      my: ['Safety အရာရှိသာ','စီမံခန့်ခွဲသူများသာ','အလုပ်သမားအားလုံး','လုံခြုံရေးဝန်ထမ်းများ'],
+    },
+    answer: 2
+  }
+];
+
+// ============================================================
+//  UI TRANSLATIONS
+// ============================================================
+const UI_TEXT = {
+  th: {
+    infoTitle: 'ข้อมูลผู้เข้าสอบ', name: 'ชื่อ - นามสกุล', dept: 'รหัสแผนก',
+    lang: 'เลือกภาษา', start: 'เริ่มทำแบบทดสอบ', ruleTitle: 'กติกาการสอบ',
+    progress: (c,t) => `ข้อที่ ${c} จาก ${t}`, answered: (n) => `ตอบแล้ว ${n} ข้อ`,
+    prev: '◀ ก่อนหน้า', next: 'ถัดไป ▶', submit: '✅ ส่งคำตอบ',
+    review: 'เฉลยคำตอบ', retry: 'ทำใหม่',
+    pass: '🎉 ผ่านเกณฑ์!', fail: '❌ ไม่ผ่านเกณฑ์',
+    pct: (s) => `คะแนน ${s}% | เกณฑ์ผ่าน 80%`,
+    of: 'จาก 10',
+    nameLabel: (n,d) => `${n} | ${d}`,
+    choices: ['ก','ข','ค','ง'],
+    placeholder_name: 'กรอกชื่อ-นามสกุล',
+    placeholder_dept: 'เช่น PRD-001, QA-002',
+    alert_name: 'กรุณากรอกชื่อ-นามสกุล',
+    alert_dept: 'กรุณากรอกรหัสแผนก',
+    alert_lang: 'กรุณาเลือกภาษา',
+    heroTitle: 'แบบทดสอบความรู้ด้านความปลอดภัย',
+  },
+  en: {
+    infoTitle: 'Examinee Information', name: 'First Name - Last Name', dept: 'Department Code',
+    lang: 'Select Language', start: 'Start Test', ruleTitle: 'Test Rules',
+    progress: (c,t) => `Question ${c} of ${t}`, answered: (n) => `${n} answered`,
+    prev: '◀ Previous', next: 'Next ▶', submit: '✅ Submit',
+    review: 'Answer Review', retry: 'Retake',
+    pass: '🎉 PASSED!', fail: '❌ NOT PASSED',
+    pct: (s) => `Score: ${s}% | Pass: 80%`,
+    of: 'out of 10',
+    nameLabel: (n,d) => `${n} | ${d}`,
+    choices: ['A','B','C','D'],
+    placeholder_name: 'Enter full name',
+    placeholder_dept: 'e.g. PRD-001, QA-002',
+    alert_name: 'Please enter your name',
+    alert_dept: 'Please enter department code',
+    alert_lang: 'Please select language',
+    heroTitle: 'Safety Knowledge Test',
+  },
+  zh: {
+    infoTitle: '考生信息', name: '姓名', dept: '部门代码',
+    lang: '选择语言', start: '开始测试', ruleTitle: '考试规则',
+    progress: (c,t) => `第 ${c} 题，共 ${t} 题`, answered: (n) => `已作答 ${n} 题`,
+    prev: '◀ 上一题', next: '下一题 ▶', submit: '✅ 提交',
+    review: '答题解析', retry: '重新测试',
+    pass: '🎉 通过！', fail: '❌ 未通过',
+    pct: (s) => `得分：${s}% | 及格：80%`,
+    of: '/ 10',
+    nameLabel: (n,d) => `${n} | ${d}`,
+    choices: ['A','B','C','D'],
+    placeholder_name: '输入姓名',
+    placeholder_dept: '例如 PRD-001',
+    alert_name: '请输入姓名',
+    alert_dept: '请输入部门代码',
+    alert_lang: '请选择语言',
+    heroTitle: '工作安全知识测试',
+  },
+  my: {
+    infoTitle: 'စာမေးပွဲသူ၏ အချက်အလက်', name: 'နာမည် - မျိုးနွယ်အမည်', dept: 'ဌာနကုဒ်',
+    lang: 'ဘာသာစကားရွေးချယ်ပါ', start: 'စာမေးပွဲစတင်ပါ', ruleTitle: 'စာမေးပွဲ စည်းကမ်းများ',
+    progress: (c,t) => `မေးခွန်း ${c} / ${t}`, answered: (n) => `ဖြေဆိုပြီး ${n} ခု`,
+    prev: '◀ နောက်သို့', next: 'ရှေ့သို့ ▶', submit: '✅ တင်သွင်းပါ',
+    review: 'အဖြေသုံးသပ်ချက်', retry: 'ပြန်ကြိုးစားပါ',
+    pass: '🎉 အောင်မြင်သည်!', fail: '❌ မအောင်မြင်ပါ',
+    pct: (s) => `ရမှတ် ${s}% | အောင်မှတ် 80%`,
+    of: '/ 10',
+    nameLabel: (n,d) => `${n} | ${d}`,
+    choices: ['က','ခ','ဂ','ဃ'],
+    placeholder_name: 'နာမည် ထည့်ပါ',
+    placeholder_dept: 'ဥပမာ PRD-001',
+    alert_name: 'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',
+    alert_dept: 'ကျေးဇူးပြု၍ ဌာနကုဒ်ဖြည့်ပါ',
+    alert_lang: 'ကျေးဇူးပြု၍ ဘာသာစကားရွေးပါ',
+    heroTitle: 'လုပ်ငန်းဘေးကင်းရေး စစ်ဆေးမှု',
+  }
+};
+
+// ============================================================
+//  STATE
+// ============================================================
+let lang = '';
+let selectedQuestions = [];
+let userAnswers = {};
+let currentQ = 0;
+let userName = '';
+let userDept = '';
+let resultsDB = JSON.parse(localStorage.getItem('safetyQuizResults') || '[]');
+let sortDir = -1;
+
+// ============================================================
+//  LANGUAGE SELECTION
+// ============================================================
+function selectLang(code, el) {
+  lang = code;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  applyUIText();
+}
+
+function applyUIText() {
+  if (!lang) return;
+  const t = UI_TEXT[lang];
+  document.getElementById('lbl-info').textContent = t.infoTitle;
+  document.getElementById('lbl-name').innerHTML = t.name + ' <span class="required">*</span>';
+  document.getElementById('lbl-dept').innerHTML = t.dept + ' <span class="required">*</span>';
+  document.getElementById('lbl-lang').textContent = t.lang;
+  document.getElementById('lbl-start').textContent = t.start;
+  document.getElementById('lbl-ruleTitle').textContent = t.ruleTitle;
+  document.getElementById('input-name').placeholder = t.placeholder_name;
+  document.getElementById('input-dept').placeholder = t.placeholder_dept;
+  document.getElementById('hero-title').textContent = t.heroTitle;
+}
+
+// ============================================================
+//  QUIZ LOGIC
+// ============================================================
+function shuffleArr(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  userName = document.getElementById('input-name').value.trim();
+  userDept = document.getElementById('input-dept').value.trim();
+  const t = UI_TEXT[lang] || UI_TEXT['th'];
+
+  if (!userName) { alert(t.alert_name); return; }
+  if (!userDept) { alert(t.alert_dept); return; }
+  if (!lang) { alert(t.alert_lang); return; }
+
+  selectedQuestions = shuffleArr(QUESTIONS).slice(0, 10);
+  userAnswers = {};
+  currentQ = 0;
+
+  showScreen('quiz');
+  document.getElementById('bottom-nav').style.display = 'flex';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const t = UI_TEXT[lang];
+  const q = selectedQuestions[currentQ];
+  const total = selectedQuestions.length;
+  const answeredCount = Object.keys(userAnswers).length;
+
+  document.getElementById('q-num').textContent = currentQ + 1;
+  document.getElementById('q-text').textContent = q[lang];
+  document.getElementById('q-progress').textContent = t.progress(currentQ + 1, total);
+  document.getElementById('q-answered').textContent = t.answered(answeredCount);
+  document.getElementById('progress-bar').style.width = `${((currentQ + 1) / total) * 100}%`;
+
+  const choicesWrap = document.getElementById('choices-wrap');
+  choicesWrap.innerHTML = '';
+  const choices = q.choices[lang];
+  choices.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'choice' + (userAnswers[currentQ] === i ? ' selected' : '');
+    div.innerHTML = `<span class="choice-label">${t.choices[i]}</span><span>${c}</span>`;
+    div.onclick = () => selectAnswer(i);
+    choicesWrap.appendChild(div);
+  });
+
+  document.getElementById('btn-prev').disabled = currentQ === 0;
+  document.getElementById('btn-next').style.display = currentQ < total - 1 ? 'flex' : 'none';
+  document.getElementById('btn-submit').style.display = currentQ === total - 1 ? 'flex' : 'none';
+
+  const nextBtn = document.getElementById('btn-next');
+  if (nextBtn) nextBtn.textContent = t.next || 'ถัดไป ▶';
+  document.getElementById('btn-prev').textContent = t.prev || '◀ ก่อนหน้า';
+  document.getElementById('btn-submit').textContent = t.submit || '✅ ส่งคำตอบ';
+}
+
+function selectAnswer(idx) {
+  userAnswers[currentQ] = idx;
+  renderQuestion();
+}
+
+function navigate(dir) {
+  currentQ = Math.max(0, Math.min(selectedQuestions.length - 1, currentQ + dir));
+  renderQuestion();
+}
+
+function submitQuiz() {
+  const unanswered = selectedQuestions.length - Object.keys(userAnswers).length;
+  if (unanswered > 0) {
+    const msg = { th: `ยังมี ${unanswered} ข้อที่ยังไม่ได้ตอบ ต้องการส่งเลยหรือไม่?`, en: `${unanswered} questions unanswered. Submit anyway?`, zh: `还有 ${unanswered} 题未作答，确定提交吗？`, my: `${unanswered} မေးခွန်းမဖြေဆိုရသေး ။ တင်သွင်းမည်လား?` };
+    if (!confirm(msg[lang] || msg.th)) return;
+  }
+
+  let score = 0;
+  selectedQuestions.forEach((q, i) => {
+    if (userAnswers[i] === q.answer) score++;
+  });
+
+  const passed = score >= 8;
+  const pct = Math.round((score / 10) * 100);
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'});
+
+  const record = { name: userName, dept: userDept, lang, score, pct, passed, date: dateStr, timestamp: now.getTime() };
+  resultsDB.push(record);
+  localStorage.setItem('safetyQuizResults', JSON.stringify(resultsDB));
+
+  // Save to Google Sheets (async, non-blocking)
+  saveToGoogleSheets(record);
+
+  showResultScreen(score, pct, passed);
+  if (passed) launchConfetti();
+}
+
+function showResultScreen(score, pct, passed) {
+  const t = UI_TEXT[lang];
+  showScreen('result');
+
+  const circle = document.getElementById('score-circle');
+  circle.className = 'score-circle ' + (passed ? 'pass' : 'fail');
+  circle.style.setProperty('--pct', `${pct}%`);
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-denom').textContent = t.of;
+
+  const statusEl = document.getElementById('score-status');
+  statusEl.textContent = passed ? t.pass : t.fail;
+  statusEl.className = 'score-status ' + (passed ? 'pass' : 'fail');
+  document.getElementById('score-pct').textContent = t.pct(pct);
+  document.getElementById('result-name').textContent = t.nameLabel(userName, userDept);
+  document.getElementById('lbl-review').textContent = t.review;
+  document.getElementById('lbl-retry').textContent = t.retry;
+
+  // Review list
+  const reviewList = document.getElementById('review-list');
+  reviewList.innerHTML = '';
+  selectedQuestions.forEach((q, i) => {
+    const isCorrect = userAnswers[i] === q.answer;
+    const userChoice = q.choices[lang][userAnswers[i]] || '-';
+    const correctChoice = q.choices[lang][q.answer];
+    const div = document.createElement('div');
+    div.className = 'review-item';
+    div.innerHTML = `
+      <span class="review-icon">${isCorrect ? '✅' : '❌'}</span>
+      <div>
+        <strong>ข้อ ${i+1}:</strong> ${q[lang]}<br>
+        <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">
+          ${isCorrect ? '✔ ' + userChoice : '✘ ' + (userAnswers[i] !== undefined ? userChoice : '-')}
+        </span>
+        ${!isCorrect ? `<br><span style="color:var(--success)">✔ ${correctChoice}</span>` : ''}
+      </div>`;
+    reviewList.appendChild(div);
+  });
+}
+
+function retakeQuiz() {
+  userAnswers = {};
+  currentQ = 0;
+  selectedQuestions = shuffleArr(QUESTIONS).slice(0, 10);
+  showScreen('quiz');
+  renderQuestion();
+}
+
+// ============================================================
+//  CONFETTI
+// ============================================================
+function launchConfetti() {
+  const colors = ['#f59e0b','#10b981','#0f4c81','#ef4444','#8b5cf6'];
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = Math.random() * 30 + 'vh';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2000);
+    }, i * 40);
+  }
+}
+
+// ============================================================
+//  GOOGLE SHEETS BACKEND
+// ============================================================
+let gsUrl = localStorage.getItem('gsUrl') || '';
+let gsSyncing = false;
+
+function updateGSBannerStatus() {
+  const dot = document.getElementById('gs-dot');
+  const txt = document.getElementById('gs-status-text');
+  if (!dot || !txt) return;
+  if (gsUrl) {
+    dot.style.background = '#10b981';
+    txt.textContent = '✅ เชื่อมต่อแล้ว — ข้อมูลจะบันทึกลง Google Sheets อัตโนมัติ';
+  } else {
+    dot.style.background = '#e2e8f0';
+    txt.textContent = 'คลิกเพื่อตั้งค่า Apps Script URL';
+  }
+}
+
+function toggleGSSettings() {
+  const panel = document.getElementById('gs-settings');
+  const isVisible = panel.style.display !== 'none';
+  panel.style.display = isVisible ? 'none' : 'block';
+  if (!isVisible && gsUrl) {
+    document.getElementById('gs-url-input').value = gsUrl;
+  }
+}
+
+function saveGSUrl() {
+  const val = document.getElementById('gs-url-input').value.trim();
+  if (!val) { alert('กรุณาใส่ URL'); return; }
+  if (!val.startsWith('https://script.google.com')) {
+    alert('URL ต้องเริ่มต้นด้วย https://script.google.com/...');
+    return;
+  }
+  gsUrl = val;
+  localStorage.setItem('gsUrl', gsUrl);
+  updateGSBannerStatus();
+  showGSTestResult('success', '✅ บันทึก URL สำเร็จ');
+}
+
+function clearGSUrl() {
+  if (!confirm('ล้าง Apps Script URL?')) return;
+  gsUrl = '';
+  localStorage.removeItem('gsUrl');
+  document.getElementById('gs-url-input').value = '';
+  updateGSBannerStatus();
+  showGSTestResult('info', 'ล้าง URL แล้ว — ข้อมูลจะไม่ถูกส่งไป Google Sheets');
+}
+
+function showGSTestResult(type, msg) {
+  const el = document.getElementById('gs-test-result');
+  el.style.display = 'block';
+  const colors = { success: '#d1fae5', error: '#fee2e2', info: '#e0f2fe', loading: '#fef3c7' };
+  const textColors = { success: '#065f46', error: '#991b1b', info: '#0369a1', loading: '#92400e' };
+  el.style.background = colors[type] || '#f8fafc';
+  el.style.color = textColors[type] || '#1e293b';
+  el.style.padding = '10px 14px';
+  el.style.borderRadius = '8px';
+  el.textContent = msg;
+}
+
+async function testGSConnection() {
+  if (!gsUrl) { alert('กรุณาบันทึก URL ก่อน'); return; }
+  showGSTestResult('loading', '⏳ กำลังทดสอบการเชื่อมต่อ...');
+  try {
+    // GET ไม่มี CORS ปัญหา — ใช้ทดสอบได้ตรงๆ
+    const resp = await fetch(gsUrl, { redirect: 'follow' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const text = await resp.text();
+    // กัน error ถ้า Apps Script ส่ง HTML error กลับมา
+    if (text.trim().startsWith('<')) {
+      throw new Error('ได้รับ HTML แทน JSON — ตรวจสอบ Deploy URL และ Permission');
+    }
+    const json = JSON.parse(text);
+    if (json.data !== undefined) {
+      showGSTestResult('success', `✅ เชื่อมต่อสำเร็จ! พบข้อมูล ${json.data.length} รายการใน Google Sheets`);
+    } else {
+      showGSTestResult('error', '⚠️ ตอบสนองแล้วแต่ format ไม่ถูกต้อง — ตรวจสอบโค้ด Apps Script ว่าใช้เวอร์ชันใหม่หรือยัง');
+    }
+  } catch(err) {
+    showGSTestResult('error', '❌ ' + err.message + '\n\n💡 เช็ก: 1) Deploy URL ถูกต้อง  2) Who has access = Anyone  3) ใช้โค้ดเวอร์ชันใหม่ในแอปนี้');
+  }
+}
+
+async function syncFromSheets() {
+  if (!gsUrl) { alert('กรุณาบันทึก URL ก่อน'); return; }
+  showGSTestResult('loading', '⏳ กำลังโหลดข้อมูลจาก Google Sheets...');
+  try {
+    const resp = await fetch(gsUrl, { redirect: 'follow' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const text = await resp.text();
+    if (text.trim().startsWith('<')) throw new Error('ได้รับ HTML แทน JSON — ตรวจสอบ Deploy URL');
+    const json = JSON.parse(text);
+    if (json.data && Array.isArray(json.data)) {
+      resultsDB = json.data;
+      localStorage.setItem('safetyQuizResults', JSON.stringify(resultsDB));
+      showGSTestResult('success', `✅ โหลดข้อมูลสำเร็จ ${json.data.length} รายการ`);
+      updateStats();
+      renderTable();
+      renderDeptReport();
+    } else {
+      showGSTestResult('error', '⚠️ ไม่พบข้อมูล หรือ format ไม่ถูกต้อง');
+    }
+  } catch(err) {
+    showGSTestResult('error', '❌ โหลดข้อมูลล้มเหลว: ' + err.message);
+  }
+}
+
+async function saveToGoogleSheets(record) {
+  if (!gsUrl) return;
+  try {
+    // ใช้ URLSearchParams + no-cors เพื่อหลีกเลี่ยง CORS preflight
+    // Apps Script รับผ่าน e.parameter ได้เลย
+    const params = new URLSearchParams({
+      name:   record.name,
+      dept:   record.dept,
+      lang:   record.lang,
+      score:  record.score,
+      pct:    record.pct,
+      passed: record.passed,
+      date:   record.date
+    });
+    await fetch(gsUrl, {
+      method: 'POST',
+      mode: 'no-cors',          // ป้องกัน CORS error
+      redirect: 'follow',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+    // no-cors ไม่สามารถอ่าน response ได้ — ถ้าไม่ throw = ส่งไปแล้ว
+  } catch(err) {
+    console.warn('GS save failed:', err.message);
+  }
+}
+
+function copyAppsScript() {
+  const code = document.getElementById('apps-script-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ คัดลอกแล้ว!';
+    setTimeout(() => btn.textContent = '📋 คัดลอก', 2000);
+  });
+}
+
+// ============================================================
+//  ADMIN PASSWORD
+// ============================================================
+const ADMIN_PASSWORD = 'Safety@2567';
+let pwAttempts = 0;
+const MAX_ATTEMPTS = 3;
+let adminUnlocked = false;
+
+function showAdmin() {
+  if (adminUnlocked) {
+    _openAdmin();
+  } else {
+    openPasswordModal();
+  }
+}
+
+function openPasswordModal() {
+  document.getElementById('pw-modal').classList.remove('hidden');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-error').textContent = '';
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+}
+
+function closePasswordModal() {
+  document.getElementById('pw-modal').classList.add('hidden');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-error').textContent = '';
+}
+
+function togglePwVisibility() {
+  const input = document.getElementById('pw-input');
+  const eye = document.getElementById('pw-eye');
+  if (input.type === 'password') {
+    input.type = 'text';
+    eye.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    eye.textContent = '👁️';
+  }
+}
+
+function clearPwError() {
+  document.getElementById('pw-input').classList.remove('error');
+  document.getElementById('pw-error').textContent = '';
+}
+
+function checkPassword() {
+  if (pwAttempts >= MAX_ATTEMPTS) return;
+  const input = document.getElementById('pw-input');
+  const val = input.value;
+
+  if (val === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    closePasswordModal();
+    _openAdmin();
+    pwAttempts = 0;
+    // Reset dots
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+      document.getElementById('dot-' + i).classList.remove('used');
+    }
+  } else {
+    pwAttempts++;
+    input.classList.add('error');
+    // Mark dot
+    document.getElementById('dot-' + (pwAttempts - 1)).classList.add('used');
+
+    const remaining = MAX_ATTEMPTS - pwAttempts;
+    const errEl = document.getElementById('pw-error');
+
+    if (pwAttempts >= MAX_ATTEMPTS) {
+      errEl.innerHTML = '🔒 รหัสผิด 3 ครั้ง — ถูกล็อก 30 วินาที';
+      input.disabled = true;
+      const btn = document.getElementById('pw-btn');
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+
+      let countdown = 30;
+      const timer = setInterval(() => {
+        countdown--;
+        errEl.innerHTML = `🔒 ถูกล็อก — รอ ${countdown} วินาที`;
+        if (countdown <= 0) {
+          clearInterval(timer);
+          pwAttempts = 0;
+          input.disabled = false;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          input.value = '';
+          errEl.textContent = '';
+          for (let i = 0; i < MAX_ATTEMPTS; i++) {
+            document.getElementById('dot-' + i).classList.remove('used');
+          }
+        }
+      }, 1000);
+    } else {
+      errEl.innerHTML = `❌ รหัสผ่านไม่ถูกต้อง — เหลืออีก ${remaining} ครั้ง`;
+    }
+    input.value = '';
+    setTimeout(() => input.classList.remove('error'), 500);
+  }
+}
+
+function _openAdmin() {
+  showScreen('admin');
+  updateStats();
+  renderTable();
+  renderDeptReport();
+  generateQR();
+  updateGSBannerStatus();
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-admin').classList.add('active');
+}
+
+// ============================================================
+//  ADMIN
+// ============================================================
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  if (name === 'register') {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('nav-home').classList.add('active');
+  }
+}
+
+function updateStats() {
+  const total = resultsDB.length;
+  const passes = resultsDB.filter(r => r.passed).length;
+  const fails = total - passes;
+  const avg = total ? Math.round(resultsDB.reduce((s,r) => s + r.pct, 0) / total) : 0;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-pass').textContent = passes;
+  document.getElementById('stat-fail').textContent = fails;
+  document.getElementById('stat-avg').textContent = avg + '%';
+}
+
+function renderTable() {
+  const search = document.getElementById('search-name').value.toLowerCase();
+  const deptFilter = document.getElementById('filter-dept').value;
+  const statusFilter = document.getElementById('filter-status').value;
+
+  // Update dept dropdown
+  const depts = [...new Set(resultsDB.map(r => r.dept))];
+  const sel = document.getElementById('filter-dept');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">แผนกทั้งหมด</option>';
+  depts.forEach(d => { const o = document.createElement('option'); o.value = d; o.textContent = d; sel.appendChild(o); });
+  sel.value = cur;
+
+  let data = [...resultsDB];
+  if (search) data = data.filter(r => r.name.toLowerCase().includes(search));
+  if (deptFilter) data = data.filter(r => r.dept === deptFilter);
+  if (statusFilter) data = data.filter(r => statusFilter === 'pass' ? r.passed : !r.passed);
+
+  const langMap = {th:'ไทย', en:'English', zh:'中文', my:'မြန်မာ'};
+  const tbody = document.getElementById('table-body');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted" style="padding:24px">ไม่พบข้อมูล</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map((r, i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${r.name}</strong></td>
+      <td>${r.dept}</td>
+      <td>${langMap[r.lang] || r.lang}</td>
+      <td><strong>${r.score}/10</strong></td>
+      <td><span class="badge ${r.passed ? 'badge-pass' : 'badge-fail'}">${r.passed ? '✅ ผ่าน' : '❌ ไม่ผ่าน'}</span></td>
+      <td style="font-size:0.78rem;color:var(--text-light)">${r.date}</td>
+    </tr>`).join('');
+}
+
+function sortByScore() {
+  resultsDB.sort((a,b) => sortDir * (a.score - b.score));
+  sortDir *= -1;
+  renderTable();
+}
+
+function renderDeptReport() {
+  const depts = {};
+  resultsDB.forEach(r => {
+    if (!depts[r.dept]) depts[r.dept] = { total: 0, pass: 0, totalScore: 0 };
+    depts[r.dept].total++;
+    if (r.passed) depts[r.dept].pass++;
+    depts[r.dept].totalScore += r.score;
+  });
+  const container = document.getElementById('dept-report');
+  if (!Object.keys(depts).length) {
+    container.innerHTML = '<p class="text-muted text-sm text-center" style="padding:16px">ยังไม่มีข้อมูล</p>';
+    return;
+  }
+  container.innerHTML = `<table class="data-table">
+    <thead><tr><th>แผนก</th><th>ผู้เข้าสอบ</th><th>ผ่าน</th><th>ไม่ผ่าน</th><th>คะแนนเฉลี่ย</th></tr></thead>
+    <tbody>${Object.entries(depts).map(([d, v]) =>
+      `<tr><td><strong>${d}</strong></td><td>${v.total}</td>
+       <td style="color:var(--success)"><strong>${v.pass}</strong></td>
+       <td style="color:var(--danger)">${v.total - v.pass}</td>
+       <td>${Math.round(v.totalScore/v.total*10)}%</td></tr>`
+    ).join('')}</tbody></table>`;
+}
+
+function exportCSV() {
+  const headers = ['ลำดับ','ชื่อ-นามสกุล','แผนก','ภาษา','คะแนน','เปอร์เซ็นต์','สถานะ','วันที่'];
+  const rows = resultsDB.map((r,i) => [i+1, r.name, r.dept, r.lang, r.score, r.pct+'%', r.passed?'ผ่าน':'ไม่ผ่าน', r.date]);
+  const csv = '\uFEFF' + [headers, ...rows].map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'safety_quiz_results.csv';
+  a.click();
+}
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['records','dept','qr'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+  });
+  if (name === 'dept') renderDeptReport();
+  if (name === 'qr') generateQR();
+}
+
+// ============================================================
+//  QR CODE
+// ============================================================
+let qrGenerated = false;
+function generateQR() {
+  if (qrGenerated) return;
+  const url = window.location.href.split('#')[0];
+  document.getElementById('qr-url-text').textContent = url;
+  const qrdiv = document.getElementById('qrcode');
+  qrdiv.innerHTML = '';
+  new QRCode(qrdiv, { text: url, width: 200, height: 200, colorDark: '#0f4c81', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+  qrGenerated = true;
+}
+
+function copyURL() {
+  const url = window.location.href.split('#')[0];
+  navigator.clipboard.writeText(url).then(() => {
+    alert('คัดลอกลิงก์แล้ว / Link copied!');
+  });
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+window.onload = () => {
+  // Default Thai
+  lang = 'th';
+  document.querySelector('.lang-btn').classList.add('selected');
+  applyUIText();
+};
+</script>
+</body>
+</html>
