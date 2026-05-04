@@ -784,113 +784,45 @@
   <!-- ========== SCREEN: Admin ========== -->
   <div id="screen-admin" class="screen">
 
-    <!-- Google Sheets Banner -->
+    <!-- GitHub Issues Banner -->
     <div id="gs-banner" class="card" style="padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px;cursor:pointer;border:2px solid var(--border)" onclick="toggleGSSettings()">
-      <span style="font-size:1.5rem">📊</span>
+      <span style="font-size:1.5rem">🐙</span>
       <div style="flex:1">
-        <div style="font-weight:700;font-size:0.9rem;color:var(--primary)">Google Sheets Backend</div>
-        <div id="gs-status-text" style="font-size:0.75rem;color:var(--text-light)">คลิกเพื่อตั้งค่า Apps Script URL</div>
+        <div style="font-weight:700;font-size:0.9rem;color:var(--primary)">GitHub Issues Backend</div>
+        <div id="gs-status-text" style="font-size:0.75rem;color:var(--text-light)">คลิกเพื่อตั้งค่า GitHub Token</div>
       </div>
       <div id="gs-dot" style="width:10px;height:10px;border-radius:50%;background:var(--border);flex-shrink:0"></div>
     </div>
 
-    <!-- GS Settings Panel -->
+    <!-- GitHub Settings Panel -->
     <div id="gs-settings" class="card" style="display:none;margin-bottom:14px;padding:20px">
-      <div class="card-title" style="margin-bottom:14px"><span class="icon">⚙️</span> ตั้งค่า Google Sheets</div>
-      <div style="font-size:0.82rem;color:var(--text-light);margin-bottom:12px;line-height:1.6">
-        1. เปิด Google Sheets → Extensions → Apps Script<br>
-        2. วางโค้ด Apps Script แล้ว Deploy เป็น Web App<br>
-        3. ใส่ URL ที่ได้ด้านล่าง
+      <div class="card-title" style="margin-bottom:14px"><span class="icon">⚙️</span> ตั้งค่า GitHub Issues</div>
+
+      <div style="background:#fef3c7;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:0.8rem;line-height:1.7;color:#92400e">
+        📋 <strong>วิธีสร้าง Token:</strong><br>
+        1. เปิด <strong>github.com → Settings → Developer settings</strong><br>
+        2. คลิก <strong>Personal access tokens → Tokens (classic)</strong><br>
+        3. กด <strong>Generate new token (classic)</strong><br>
+        4. ติ๊ก scope: <strong>repo</strong> → กด Generate<br>
+        5. คัดลอก token มาใส่ด้านล่าง
       </div>
+
       <div style="margin-bottom:10px">
-        <label style="font-size:0.82rem;font-weight:600;margin-bottom:6px;display:block">Apps Script Web App URL</label>
-        <input type="text" id="gs-url-input" placeholder="https://script.google.com/macros/s/..." style="font-size:0.8rem;font-family:var(--font-en)">
+        <label style="font-size:0.82rem;font-weight:600;margin-bottom:6px;display:block">GitHub Personal Access Token</label>
+        <input type="password" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="font-size:0.8rem;font-family:var(--font-en);width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;outline:none;background:#f8fafc">
       </div>
+      <div style="margin-bottom:14px">
+        <label style="font-size:0.82rem;font-weight:600;margin-bottom:6px;display:block">Repository (owner/repo)</label>
+        <input type="text" id="gh-repo-input" placeholder="Starstamp2/Cartoon" style="font-size:0.8rem;font-family:var(--font-en)">
+      </div>
+
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="saveGSUrl()">💾 บันทึก URL</button>
+        <button class="btn btn-primary btn-sm" onclick="saveGSUrl()">💾 บันทึก</button>
         <button class="btn btn-outline btn-sm" onclick="testGSConnection()">🔗 ทดสอบการเชื่อมต่อ</button>
-        <button class="btn btn-outline btn-sm" onclick="syncFromSheets()">🔄 โหลดข้อมูลจาก Sheets</button>
-        <button class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border:none" onclick="clearGSUrl()">🗑️ ล้าง URL</button>
+        <button class="btn btn-outline btn-sm" onclick="syncFromSheets()">🔄 โหลดผลสอบจาก Issues</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border:none" onclick="clearGSUrl()">🗑️ ล้างข้อมูล</button>
       </div>
       <div id="gs-test-result" style="margin-top:10px;font-size:0.8rem;display:none"></div>
-
-      <!-- Apps Script Code -->
-      <div style="margin-top:16px">
-        <div style="font-size:0.82rem;font-weight:700;margin-bottom:8px;color:var(--text)">📋 โค้ด Apps Script (คัดลอกไปใส่)</div>
-        <div style="position:relative">
-          <pre id="apps-script-code" style="background:#1e293b;color:#e2e8f0;padding:14px;border-radius:10px;font-size:0.68rem;overflow-x:auto;line-height:1.6;white-space:pre-wrap;word-break:break-word">// =============================================
-// วาง code นี้ใน Apps Script แล้ว Deploy ใหม่
-// Execute as: Me | Who has access: Anyone
-// =============================================
-
-function doPost(e) {
-  try {
-    var p = e.parameter;
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName('Results') || ss.insertSheet('Results');
-
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['Timestamp','Name','Department','Language','Score','Percent','Status','Date']);
-      sheet.getRange(1,1,1,8)
-        .setFontWeight('bold')
-        .setBackground('#0f4c81')
-        .setFontColor('#ffffff');
-    }
-
-    sheet.appendRow([
-      new Date(),
-      p.name   || '',
-      p.dept   || '',
-      p.lang   || '',
-      Number(p.score) || 0,
-      (p.pct || '0') + '%',
-      p.passed === 'true' ? 'PASS' : 'FAIL',
-      p.date   || ''
-    ]);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({status:'ok'}))
-      .setMimeType(ContentService.MimeType.JSON);
-
-  } catch(err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({status:'error', msg: err.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet(e) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('Results');
-
-  if (!sheet || sheet.getLastRow() < 2) {
-    return ContentService
-      .createTextOutput(JSON.stringify({data:[]}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 8).getValues();
-  var data = rows
-    .filter(function(r) { return r[1]; })
-    .map(function(r) {
-      return {
-        name:   r[1],
-        dept:   r[2],
-        lang:   r[3],
-        score:  Number(r[4]),
-        pct:    parseInt(r[5]) || 0,
-        passed: r[6] === 'PASS',
-        date:   r[7] ? r[7].toString() : ''
-      };
-    });
-
-  return ContentService
-    .createTextOutput(JSON.stringify({data: data}))
-    .setMimeType(ContentService.MimeType.JSON);
-}</pre>
-          <button onclick="copyAppsScript()" class="btn btn-sm" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.15);color:#e2e8f0;border:1px solid rgba(255,255,255,0.2);padding:5px 10px;font-size:0.7rem">📋 คัดลอก</button>
-        </div>
-      </div>
     </div>
 
     <div class="stats-grid">
@@ -1494,21 +1426,21 @@ function launchConfetti() {
 }
 
 // ============================================================
-//  GOOGLE SHEETS BACKEND
+//  GITHUB ISSUES BACKEND
 // ============================================================
-let gsUrl = localStorage.getItem('gsUrl') || '';
-let gsSyncing = false;
+let ghToken = localStorage.getItem('ghToken') || '';
+let ghRepo  = localStorage.getItem('ghRepo')  || 'Starstamp2/Cartoon';
 
 function updateGSBannerStatus() {
   const dot = document.getElementById('gs-dot');
   const txt = document.getElementById('gs-status-text');
   if (!dot || !txt) return;
-  if (gsUrl) {
+  if (ghToken && ghRepo) {
     dot.style.background = '#10b981';
-    txt.textContent = '✅ เชื่อมต่อแล้ว — ข้อมูลจะบันทึกลง Google Sheets อัตโนมัติ';
+    txt.textContent = `✅ เชื่อมต่อแล้ว — บันทึกลง ${ghRepo} อัตโนมัติ`;
   } else {
     dot.style.background = '#e2e8f0';
-    txt.textContent = 'คลิกเพื่อตั้งค่า Apps Script URL';
+    txt.textContent = 'คลิกเพื่อตั้งค่า GitHub Token';
   }
 }
 
@@ -1516,126 +1448,130 @@ function toggleGSSettings() {
   const panel = document.getElementById('gs-settings');
   const isVisible = panel.style.display !== 'none';
   panel.style.display = isVisible ? 'none' : 'block';
-  if (!isVisible && gsUrl) {
-    document.getElementById('gs-url-input').value = gsUrl;
+  if (!isVisible) {
+    document.getElementById('gh-token-input').value = ghToken;
+    document.getElementById('gh-repo-input').value  = ghRepo;
   }
 }
 
 function saveGSUrl() {
-  const val = document.getElementById('gs-url-input').value.trim();
-  if (!val) { alert('กรุณาใส่ URL'); return; }
-  if (!val.startsWith('https://script.google.com')) {
-    alert('URL ต้องเริ่มต้นด้วย https://script.google.com/...');
-    return;
-  }
-  gsUrl = val;
-  localStorage.setItem('gsUrl', gsUrl);
+  const token = document.getElementById('gh-token-input').value.trim();
+  const repo  = document.getElementById('gh-repo-input').value.trim();
+  if (!token) { alert('กรุณาใส่ GitHub Token'); return; }
+  if (!repo || !repo.includes('/')) { alert('กรุณาใส่ repo ในรูปแบบ owner/repo'); return; }
+  ghToken = token;
+  ghRepo  = repo;
+  localStorage.setItem('ghToken', ghToken);
+  localStorage.setItem('ghRepo',  ghRepo);
   updateGSBannerStatus();
-  showGSTestResult('success', '✅ บันทึก URL สำเร็จ');
+  showGSTestResult('success', '✅ บันทึกสำเร็จ');
 }
 
 function clearGSUrl() {
-  if (!confirm('ล้าง Apps Script URL?')) return;
-  gsUrl = '';
-  localStorage.removeItem('gsUrl');
-  document.getElementById('gs-url-input').value = '';
+  if (!confirm('ล้างข้อมูล Token?')) return;
+  ghToken = ''; ghRepo = '';
+  localStorage.removeItem('ghToken');
+  localStorage.removeItem('ghRepo');
+  document.getElementById('gh-token-input').value = '';
+  document.getElementById('gh-repo-input').value  = '';
   updateGSBannerStatus();
-  showGSTestResult('info', 'ล้าง URL แล้ว — ข้อมูลจะไม่ถูกส่งไป Google Sheets');
+  showGSTestResult('info', 'ล้าง Token แล้ว');
 }
 
 function showGSTestResult(type, msg) {
   const el = document.getElementById('gs-test-result');
   el.style.display = 'block';
-  const colors = { success: '#d1fae5', error: '#fee2e2', info: '#e0f2fe', loading: '#fef3c7' };
-  const textColors = { success: '#065f46', error: '#991b1b', info: '#0369a1', loading: '#92400e' };
-  el.style.background = colors[type] || '#f8fafc';
-  el.style.color = textColors[type] || '#1e293b';
-  el.style.padding = '10px 14px';
+  const colors     = { success:'#d1fae5', error:'#fee2e2', info:'#e0f2fe', loading:'#fef3c7' };
+  const textColors = { success:'#065f46', error:'#991b1b', info:'#0369a1', loading:'#92400e' };
+  el.style.background   = colors[type]     || '#f8fafc';
+  el.style.color        = textColors[type] || '#1e293b';
+  el.style.padding      = '10px 14px';
   el.style.borderRadius = '8px';
   el.textContent = msg;
 }
 
+async function ghFetch(path, options = {}) {
+  return fetch(`https://api.github.com/repos/${ghRepo}${path}`, {
+    ...options,
+    headers: {
+      'Authorization': `token ${ghToken}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+}
+
 async function testGSConnection() {
-  if (!gsUrl) { alert('กรุณาบันทึก URL ก่อน'); return; }
+  if (!ghToken || !ghRepo) { alert('กรุณาบันทึก Token และ Repo ก่อน'); return; }
   showGSTestResult('loading', '⏳ กำลังทดสอบการเชื่อมต่อ...');
   try {
-    // GET ไม่มี CORS ปัญหา — ใช้ทดสอบได้ตรงๆ
-    const resp = await fetch(gsUrl, { redirect: 'follow' });
+    const resp = await ghFetch('/issues?labels=quiz-result&per_page=1&state=open');
+    if (resp.status === 401) throw new Error('Token ไม่ถูกต้องหรือหมดอายุ');
+    if (resp.status === 404) throw new Error('ไม่พบ Repository — เช็ก owner/repo ให้ถูกต้อง');
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const text = await resp.text();
-    // กัน error ถ้า Apps Script ส่ง HTML error กลับมา
-    if (text.trim().startsWith('<')) {
-      throw new Error('ได้รับ HTML แทน JSON — ตรวจสอบ Deploy URL และ Permission');
-    }
-    const json = JSON.parse(text);
-    if (json.data !== undefined) {
-      showGSTestResult('success', `✅ เชื่อมต่อสำเร็จ! พบข้อมูล ${json.data.length} รายการใน Google Sheets`);
-    } else {
-      showGSTestResult('error', '⚠️ ตอบสนองแล้วแต่ format ไม่ถูกต้อง — ตรวจสอบโค้ด Apps Script ว่าใช้เวอร์ชันใหม่หรือยัง');
-    }
+    const data = await resp.json();
+    showGSTestResult('success', `✅ เชื่อมต่อสำเร็จ! repo: ${ghRepo}`);
   } catch(err) {
-    showGSTestResult('error', '❌ ' + err.message + '\n\n💡 เช็ก: 1) Deploy URL ถูกต้อง  2) Who has access = Anyone  3) ใช้โค้ดเวอร์ชันใหม่ในแอปนี้');
+    showGSTestResult('error', '❌ ' + err.message);
   }
 }
 
 async function syncFromSheets() {
-  if (!gsUrl) { alert('กรุณาบันทึก URL ก่อน'); return; }
-  showGSTestResult('loading', '⏳ กำลังโหลดข้อมูลจาก Google Sheets...');
+  if (!ghToken || !ghRepo) { alert('กรุณาบันทึก Token และ Repo ก่อน'); return; }
+  showGSTestResult('loading', '⏳ กำลังโหลดผลสอบจาก GitHub Issues...');
   try {
-    const resp = await fetch(gsUrl, { redirect: 'follow' });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const text = await resp.text();
-    if (text.trim().startsWith('<')) throw new Error('ได้รับ HTML แทน JSON — ตรวจสอบ Deploy URL');
-    const json = JSON.parse(text);
-    if (json.data && Array.isArray(json.data)) {
-      resultsDB = json.data;
-      localStorage.setItem('safetyQuizResults', JSON.stringify(resultsDB));
-      showGSTestResult('success', `✅ โหลดข้อมูลสำเร็จ ${json.data.length} รายการ`);
-      updateStats();
-      renderTable();
-      renderDeptReport();
-    } else {
-      showGSTestResult('error', '⚠️ ไม่พบข้อมูล หรือ format ไม่ถูกต้อง');
+    let page = 1, all = [];
+    while (true) {
+      const resp = await ghFetch(`/issues?labels=quiz-result&state=open&per_page=100&page=${page}`);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const issues = await resp.json();
+      if (!issues.length) break;
+      issues.forEach(issue => {
+        try {
+          // ดึง JSON จาก body ของ issue
+          const match = issue.body.match(/```json\n([\s\S]+?)\n```/);
+          if (match) all.push(JSON.parse(match[1]));
+        } catch(e) {}
+      });
+      if (issues.length < 100) break;
+      page++;
     }
+    resultsDB = all;
+    localStorage.setItem('safetyQuizResults', JSON.stringify(resultsDB));
+    showGSTestResult('success', `✅ โหลดสำเร็จ ${all.length} รายการ`);
+    updateStats(); renderTable(); renderDeptReport();
   } catch(err) {
-    showGSTestResult('error', '❌ โหลดข้อมูลล้มเหลว: ' + err.message);
+    showGSTestResult('error', '❌ โหลดล้มเหลว: ' + err.message);
   }
 }
 
 async function saveToGoogleSheets(record) {
-  if (!gsUrl) return;
+  // ฟังก์ชันนี้ยังคงชื่อเดิมเพื่อไม่ให้ต้องแก้ที่อื่น
+  if (!ghToken || !ghRepo) return;
   try {
-    // ใช้ URLSearchParams + no-cors เพื่อหลีกเลี่ยง CORS preflight
-    // Apps Script รับผ่าน e.parameter ได้เลย
-    const params = new URLSearchParams({
-      name:   record.name,
-      dept:   record.dept,
-      lang:   record.lang,
-      score:  record.score,
-      pct:    record.pct,
-      passed: record.passed,
-      date:   record.date
-    });
-    await fetch(gsUrl, {
-      method: 'POST',
-      mode: 'no-cors',          // ป้องกัน CORS error
-      redirect: 'follow',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString()
-    });
-    // no-cors ไม่สามารถอ่าน response ได้ — ถ้าไม่ throw = ส่งไปแล้ว
-  } catch(err) {
-    console.warn('GS save failed:', err.message);
-  }
-}
+    const statusIcon = record.passed ? '✅' : '❌';
+    const title = `${statusIcon} ${record.name} | ${record.dept} | ${record.score}/10 | ${record.date}`;
+    const body  = [
+      `**ชื่อ:** ${record.name}`,
+      `**แผนก:** ${record.dept}`,
+      `**ภาษา:** ${record.lang}`,
+      `**คะแนน:** ${record.score}/10 (${record.pct}%)`,
+      `**สถานะ:** ${record.passed ? 'PASS ✅' : 'FAIL ❌'}`,
+      `**วันที่:** ${record.date}`,
+      ``,
+      `\`\`\`json`,
+      JSON.stringify(record),
+      `\`\`\``
+    ].join('\n');
 
-function copyAppsScript() {
-  const code = document.getElementById('apps-script-code').textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    const btn = event.target;
-    btn.textContent = '✅ คัดลอกแล้ว!';
-    setTimeout(() => btn.textContent = '📋 คัดลอก', 2000);
-  });
+    await ghFetch('/issues', {
+      method: 'POST',
+      body: JSON.stringify({ title, body, labels: ['quiz-result'] })
+    });
+  } catch(err) {
+    console.warn('GitHub Issues save failed:', err.message);
+  }
 }
 
 // ============================================================
